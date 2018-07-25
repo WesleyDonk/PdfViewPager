@@ -29,23 +29,37 @@ import es.voghdev.pdfviewpager.library.util.FileUtil;
 
 public class RemotePDFViewPager extends ViewPager implements DownloadFile.Listener {
     protected Context context;
+    protected DownloadFile downloadFile;
     protected DownloadFile.Listener listener;
 
     public RemotePDFViewPager(Context context, String pdfUrl, DownloadFile.Listener listener) {
         super(context);
         this.context = context;
         this.listener = listener;
-        init(pdfUrl);
+
+        init(new DownloadFileUrlConnectionImpl(context, new Handler(), this), pdfUrl);
+    }
+
+    public RemotePDFViewPager(Context context,
+                              DownloadFile downloadFile,
+                              String pdfUrl,
+                              DownloadFile.Listener listener) {
+        super(context);
+        this.context = context;
+        this.listener = listener;
+
+        init(downloadFile, pdfUrl);
     }
 
     public RemotePDFViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
+
         init(attrs);
     }
 
-    private void init(String pdfUrl) {
-        DownloadFile downloadFile = new DownloadFileUrlConnectionImpl(context, new Handler(), this);
+    private void init(DownloadFile downloadFile, String pdfUrl) {
+        setDownloader(downloadFile);
         downloadFile.download(pdfUrl,
                 new File(context.getCacheDir(), FileUtil.extractFileNameFromURL(pdfUrl)).getAbsolutePath());
     }
@@ -58,11 +72,15 @@ public class RemotePDFViewPager extends ViewPager implements DownloadFile.Listen
             String pdfUrl = a.getString(R.styleable.PDFViewPager_pdfUrl);
 
             if (pdfUrl != null && pdfUrl.length() > 0) {
-                init(pdfUrl);
+                init(new DownloadFileUrlConnectionImpl(context, new Handler(), this), pdfUrl);
             }
 
             a.recycle();
         }
+    }
+
+    public void setDownloader(DownloadFile downloadFile) {
+        this.downloadFile = downloadFile;
     }
 
     @Override
@@ -82,12 +100,15 @@ public class RemotePDFViewPager extends ViewPager implements DownloadFile.Listen
 
     public class NullListener implements DownloadFile.Listener {
         public void onSuccess(String url, String destinationPath) {
+            /* Empty */
         }
 
         public void onFailure(Exception e) {
+            /* Empty */
         }
 
         public void onProgressUpdate(int progress, int total) {
+            /* Empty */
         }
     }
 }

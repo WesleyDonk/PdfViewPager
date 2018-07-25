@@ -16,7 +16,7 @@ Installation
 
 Add this line in your *app/build.gradle*
 
-    compile 'es.voghdev.pdfviewpager:library:1.0.1'
+    compile 'es.voghdev.pdfviewpager:library:1.0.4'
 
 Usage
 -----
@@ -79,7 +79,7 @@ Remote PDF's from a URL
 
 ![Screenshot][remotePDFScreenshot]
 
-1.- Add INTERNET, READ_EXTERNAL_STORAGE and WRITE_EXTERNAL_STORAGE permissions on your AndroidManifest.xml
+1.- Add `INTERNET`, `READ_EXTERNAL_STORAGE` and `WRITE_EXTERNAL_STORAGE` permissions on your AndroidManifest.xml
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -91,8 +91,10 @@ Remote PDF's from a URL
 
 3.- Create a **RemotePDFViewPager** object
 
+    String url = "http://www.cals.uidaho.edu/edComm/curricula/CustRel_curriculum/content/sample.pdf";
+    
     RemotePDFViewPager remotePDFViewPager =
-          new RemotePDFViewPager(context, "http://partners.adobe.com/public/developer/en/xml/AdobeXMLFormsSamples.pdf", this);
+          new RemotePDFViewPager(context, url, this);
 
 4.- Configure the corresponding callbacks and they will be called on each situation.
 
@@ -125,6 +127,13 @@ Remote PDF's from a URL
         adapter.close();
     }
 
+Usage in Kotlin
+---------------
+
+As you might figure out, the library is fully usable in Kotlin programming language. You can find example code [here][12].
+
+Just import the library as a gradle dependency as you would do in Java.
+
 TODOs
 -----
 
@@ -135,7 +144,6 @@ TODOs
 - [X] Support API Levels under 21, by downloading PDF and invoking system native intent.
 - [X] UI tests
 - [X] Add checkstyle, refactor & improve code quality
-- [ ] Add a CustomView for legacy PDF download and intent call
 - [ ] Boost PDF opening & rendering performance using an asnychronous load
 
 See [changelog][4] for details
@@ -143,7 +151,7 @@ See [changelog][4] for details
 Developed By
 ------------
 
-* Olmo Gallegos Hernández - [@voghDev][9] - [mobiledevstories.com][10]
+* Olmo Gallegos Hernández - [voghDev][9] - [mobiledevstories.com][10]
 
 <a href="http://twitter.com/voghDev">
   <img alt="Follow me on Twitter" src="https://image.freepik.com/iconos-gratis/twitter-logo_318-40209.jpg" height="60" width="60" />
@@ -200,6 +208,7 @@ And with your Android device connected
 [6]: http://developer.android.com/reference/android/graphics/pdf/PdfRenderer.html
 [7]: https://github.com/voghDev/PdfViewPager/blob/master/sample/src/main/java/es/voghdev/pdfviewpager/LegacyPDFActivity.java
 [8]: https://github.com/voghDev/PdfViewPager/tree/master/sample/src/main/java/es/voghdev/pdfviewpager
-[9]: http://twitter.com/voghDev
+[9]: https://github.com/voghDev
 [10]: http://www.mobiledevstories.com
 [11]: https://github.com/chrisbanes/PhotoView
+[12]: https://github.com/voghDev/HelloKotlin/blob/pdfviewpager/app/src/main/java/es/voghdev/hellokotlin/PdfViewPagerActivity.kt
